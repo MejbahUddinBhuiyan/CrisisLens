@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Citizen\ReportController as CitizenReportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,6 +36,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/dashboard', AdminDashboardController::class)
         ->middleware('role:Super Administrator')
         ->name('admin.dashboard');
+        Route::prefix('citizen')
+    ->name('citizen.')
+    ->middleware('role:Citizen|Super Administrator')
+    ->group(function () {
+        Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
+        Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+    });
 });
 
 Route::middleware('auth')->group(function () {
