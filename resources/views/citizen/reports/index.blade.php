@@ -34,18 +34,27 @@
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Category
                                     </th>
+
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Urgency
                                     </th>
+
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Status
                                     </th>
+
+                                    <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
+                                        AI Prediction
+                                    </th>
+
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Location
                                     </th>
+
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Images
                                     </th>
+
                                     <th style="padding: 14px 20px; text-align: left; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase;">
                                         Submitted
                                     </th>
@@ -79,6 +88,38 @@
                                             <span style="background: #fef3c7; color: #b45309; padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;">
                                                 {{ ucfirst(str_replace('_', ' ', $report->status)) }}
                                             </span>
+                                        </td>
+
+                                        <td style="padding: 16px 20px; font-size: 14px;">
+                                            @php
+                                                $prediction = $report->predictions->first();
+                                                $predictionLabel = $prediction?->prediction ?? 'Processing';
+
+                                                $predictionStyle = match($predictionLabel) {
+                                                    'Safe' => 'background:#dcfce7;color:#15803d;',
+                                                    'Advisory' => 'background:#fef3c7;color:#b45309;',
+                                                    'Warning' => 'background:#ffedd5;color:#c2410c;',
+                                                    'Critical' => 'background:#fee2e2;color:#b91c1c;',
+                                                    'Unavailable' => 'background:#f3f4f6;color:#374151;',
+                                                    default => 'background:#e0f2fe;color:#0369a1;',
+                                                };
+                                            @endphp
+
+                                            <div>
+                                                <span style="{{ $predictionStyle }} padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;">
+                                                    {{ $predictionLabel }}
+                                                </span>
+
+                                                @if ($prediction)
+                                                    <p style="margin-top: 6px; font-size: 12px; color: #64748b;">
+                                                        Confidence: {{ $prediction->confidence_score ?? 'N/A' }}
+                                                    </p>
+                                                @else
+                                                    <p style="margin-top: 6px; font-size: 12px; color: #64748b;">
+                                                        Waiting for AI job
+                                                    </p>
+                                                @endif
+                                            </div>
                                         </td>
 
                                         <td style="padding: 16px 20px; font-size: 14px; color: #475569;">
