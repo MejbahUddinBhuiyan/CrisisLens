@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-
+use Spatie\Permission\Models\Role;
 class RegisteredUserController extends Controller
 {
     /**
@@ -42,7 +41,12 @@ class RegisteredUserController extends Controller
         'password' => Hash::make($request->password),
          ]);
 
-        $user->assignRole('Citizen');
+        Role::firstOrCreate([
+        'name' => 'Citizen',
+        'guard_name' => 'web',
+         ]);
+
+$user->assignRole('Citizen');
         event(new Registered($user));
 
         Auth::login($user);
