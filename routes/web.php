@@ -3,13 +3,14 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AiTestController;
 use App\Http\Controllers\Authority\DashboardController as AuthorityDashboardController;
+use App\Http\Controllers\Authority\ReportReviewController;
+use App\Http\Controllers\Authority\ShelterController as AuthorityShelterController;
 use App\Http\Controllers\Citizen\DashboardController as CitizenDashboardController;
+use App\Http\Controllers\Citizen\ReportController as CitizenReportController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Citizen\ReportController as CitizenReportController;
-use App\Http\Controllers\Authority\ReportReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,6 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('role:Authority Administrator|Super Administrator')
         ->name('authority.dashboard');
 
+    Route::get('/admin/dashboard', AdminDashboardController::class)
+        ->middleware('role:Super Administrator')
+        ->name('admin.dashboard');
+
     Route::prefix('authority')
         ->name('authority.')
         ->middleware('role:Authority Administrator|Super Administrator')
@@ -42,19 +47,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/reports/{report}', [ReportReviewController::class, 'show'])->name('reports.show');
             Route::patch('/reports/{report}/approve', [ReportReviewController::class, 'approve'])->name('reports.approve');
             Route::patch('/reports/{report}/reject', [ReportReviewController::class, 'reject'])->name('reports.reject');
-    });
 
-    Route::get('/admin/dashboard', AdminDashboardController::class)
-        ->middleware('role:Super Administrator')
-        ->name('admin.dashboard');
-        Route::prefix('citizen')
-    ->name('citizen.')
-    ->middleware('role:Citizen|Super Administrator')
-    ->group(function () {
-        Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
-        Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
-        Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
-    });
+            Route::get('/shelters', [AuthorityShelterController::class, 'index'])->name('shelters.index');
+            Route::get('/shelters/create', [AuthorityShelterController::class, 'create'])->name('shelters.create');
+            Route::post('/shelters', [AuthorityShelterController::class, 'store'])->name('shelters.store');
+            Route::get('/shelters/{shelter}/edit', [AuthorityShelterController::class, 'edit'])->name('shelters.edit');
+            Route::patch('/shelters/{shelter}', [AuthorityShelterController::class, 'update'])->name('shelters.update');
+        });
+
+    Route::prefix('citizen')
+        ->name('citizen.')
+        ->middleware('role:Citizen|Super Administrator')
+        ->group(function () {
+            Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
+            Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
+            Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+        });
 });
 
 Route::middleware('auth')->group(function () {
