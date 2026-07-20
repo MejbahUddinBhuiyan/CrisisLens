@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Citizen\ReportController as CitizenReportController;
+use App\Http\Controllers\Authority\ReportReviewController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/authority/dashboard', AuthorityDashboardController::class)
         ->middleware('role:Authority Administrator|Super Administrator')
         ->name('authority.dashboard');
+
+    Route::prefix('authority')
+        ->name('authority.')
+        ->middleware('role:Authority Administrator|Super Administrator')
+        ->group(function () {
+            Route::get('/reports', [ReportReviewController::class, 'index'])->name('reports.index');
+            Route::get('/reports/{report}', [ReportReviewController::class, 'show'])->name('reports.show');
+            Route::patch('/reports/{report}/approve', [ReportReviewController::class, 'approve'])->name('reports.approve');
+            Route::patch('/reports/{report}/reject', [ReportReviewController::class, 'reject'])->name('reports.reject');
+    });
 
     Route::get('/admin/dashboard', AdminDashboardController::class)
         ->middleware('role:Super Administrator')
