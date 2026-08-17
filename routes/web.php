@@ -16,11 +16,18 @@ use App\Http\Controllers\Responder\DashboardController as ResponderDashboardCont
 use App\Http\Controllers\Responder\ReportResponseController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserManagementController;
-
+use App\Http\Controllers\PublicPortal\PublicAlertController;
+use App\Http\Controllers\PublicPortal\PublicShelterController;
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/public-alerts', [PublicAlertController::class, 'index'])
+    ->name('public.alerts.index');
+
+Route::get('/public-shelters', [PublicShelterController::class, 'index'])
+    ->name('public.shelters.index');
+    
 Route::get('/ai-test/flood-risk', [AiTestController::class, 'floodRisk'])
     ->name('ai-test.flood-risk');
 
