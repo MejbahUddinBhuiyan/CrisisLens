@@ -2,18 +2,19 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AiTestController;
+use App\Http\Controllers\Authority\AlertController as AuthorityAlertController;
 use App\Http\Controllers\Authority\DashboardController as AuthorityDashboardController;
 use App\Http\Controllers\Authority\ReportReviewController;
 use App\Http\Controllers\Authority\ShelterController as AuthorityShelterController;
+use App\Http\Controllers\Citizen\AlertController as CitizenAlertController;
 use App\Http\Controllers\Citizen\DashboardController as CitizenDashboardController;
 use App\Http\Controllers\Citizen\ReportController as CitizenReportController;
+use App\Http\Controllers\Citizen\ShelterDirectoryController;
 use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
+use App\Http\Controllers\Responder\ReportResponseController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Citizen\ShelterDirectoryController;
-use App\Http\Controllers\Authority\AlertController as AuthorityAlertController;
-use App\Http\Controllers\Citizen\AlertController as CitizenAlertController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -56,11 +57,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/shelters', [AuthorityShelterController::class, 'store'])->name('shelters.store');
             Route::get('/shelters/{shelter}/edit', [AuthorityShelterController::class, 'edit'])->name('shelters.edit');
             Route::patch('/shelters/{shelter}', [AuthorityShelterController::class, 'update'])->name('shelters.update');
+
             Route::get('/alerts', [AuthorityAlertController::class, 'index'])->name('alerts.index');
             Route::get('/alerts/create', [AuthorityAlertController::class, 'create'])->name('alerts.create');
             Route::post('/alerts', [AuthorityAlertController::class, 'store'])->name('alerts.store');
             Route::get('/alerts/{alert}/edit', [AuthorityAlertController::class, 'edit'])->name('alerts.edit');
             Route::patch('/alerts/{alert}', [AuthorityAlertController::class, 'update'])->name('alerts.update');
+        });
+
+    Route::prefix('responder')
+        ->name('responder.')
+        ->middleware('role:Emergency Responder|Super Administrator')
+        ->group(function () {
+            Route::get('/reports', [ReportResponseController::class, 'index'])->name('reports.index');
+            Route::get('/reports/{report}', [ReportResponseController::class, 'show'])->name('reports.show');
+            Route::patch('/reports/{report}/under-review', [ReportResponseController::class, 'markUnderReview'])->name('reports.under-review');
+            Route::patch('/reports/{report}/resolved', [ReportResponseController::class, 'markResolved'])->name('reports.resolved');
         });
 
     Route::prefix('citizen')
@@ -70,6 +82,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+
             Route::get('/shelters', [ShelterDirectoryController::class, 'index'])->name('shelters.index');
             Route::get('/alerts', [CitizenAlertController::class, 'index'])->name('alerts.index');
         });
