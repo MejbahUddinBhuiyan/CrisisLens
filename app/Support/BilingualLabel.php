@@ -79,4 +79,26 @@ class BilingualLabel
             default => ucfirst(str_replace('_', ' ', (string) $value)),
         };
     }
+
+    public static function alertStatus(?string $value): string
+    {
+        return match ($value) {
+            'draft' => 'Draft (খসড়া)',
+            'published' => 'Published (প্রকাশিত)',
+            'expired' => 'Expired (মেয়াদ শেষ)',
+            'cancelled' => 'Cancelled (বাতিল)',
+            default => 'Unknown (অজানা)',
+        };
+    }
+
+    public static function alertRiskLevel(?string $value): string
+    {
+        return match ($value) {
+            'Safe' => 'Safe (নিরাপদ)',
+            'Advisory' => 'Advisory (সতর্কতামূলক)',
+            'Warning' => 'Warning (সতর্কতা)',
+            'Critical' => 'Critical (গুরুতর ঝুঁকি)',
+            default => 'Unknown (অজানা)',
+        };
+    }
 }
