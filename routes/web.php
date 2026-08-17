@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardRedirectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Citizen\ShelterDirectoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,6 +63,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+            Route::get('/shelters', [ShelterDirectoryController::class, 'index'])->name('shelters.index');
         });
 });
 
