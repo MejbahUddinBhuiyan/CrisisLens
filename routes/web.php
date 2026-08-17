@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Responder\DashboardController as ResponderDashboardController;
 use App\Http\Controllers\Responder\ReportResponseController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserManagementController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,6 +43,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/dashboard', AdminDashboardController::class)
         ->middleware('role:Super Administrator')
         ->name('admin.dashboard');
+
+    Route::prefix('admin')
+        ->name('admin.')
+        ->middleware('role:Super Administrator')
+        ->group(function () {
+            Route::get('/users', [UserManagementController::class, 'index'])->name('users.index');
+            Route::get('/users/create', [UserManagementController::class, 'create'])->name('users.create');
+            Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
+            Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
+            Route::patch('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
+    });    
 
     Route::prefix('authority')
         ->name('authority.')
@@ -82,7 +94,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+        });
 
+    Route::prefix('citizen')
+        ->name('citizen.')
+        ->middleware('role:Citizen|Emergency Responder|Super Administrator')
+        ->group(function () {
             Route::get('/shelters', [ShelterDirectoryController::class, 'index'])->name('shelters.index');
             Route::get('/alerts', [CitizenAlertController::class, 'index'])->name('alerts.index');
         });
