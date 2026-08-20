@@ -28,11 +28,13 @@
         }
 
         .navbar {
-            background: white;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(14px);
             border-bottom: 1px solid #e5e7eb;
             position: sticky;
             top: 0;
             z-index: 50;
+            box-shadow: 0 1px 10px rgba(15, 23, 42, 0.04);
         }
 
         .navbar-inner {
@@ -47,6 +49,11 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            transition: all 0.25s ease;
+        }
+
+        .brand:hover {
+            transform: scale(1.03);
         }
 
         .brand-logo {
@@ -60,6 +67,11 @@
             align-items: center;
             font-weight: 900;
             font-size: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .brand:hover .brand-logo {
+            box-shadow: 0 8px 22px rgba(0, 106, 78, 0.25);
         }
 
         .brand-title {
@@ -88,11 +100,18 @@
             font-size: 14px;
             font-weight: 800;
             border: 1px solid transparent;
+            transition: all 0.25s ease;
         }
 
         .btn-primary {
             background: #0F766E;
             color: white;
+        }
+
+        .btn-primary:hover {
+            background: #006A4E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0, 106, 78, 0.22);
         }
 
         .btn-secondary {
@@ -101,13 +120,28 @@
             border-color: #cbd5e1;
         }
 
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #006A4E;
+            color: #006A4E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+        }
+
         .btn-danger {
             background: #dc2626;
             color: white;
         }
 
+        .btn-danger:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(220, 38, 38, 0.22);
+        }
+
         .hero {
             padding: 72px 0 52px;
+            overflow: hidden;
             background:
                 radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 35%),
                 radial-gradient(circle at bottom right, rgba(220, 38, 38, 0.10), transparent 35%),
@@ -130,6 +164,12 @@
             border-radius: 999px;
             font-size: 13px;
             font-weight: 900;
+            transition: all 0.25s ease;
+        }
+
+        .badge:hover {
+            background: #99f6e4;
+            transform: translateY(-2px);
         }
 
         .hero h1 {
@@ -159,6 +199,13 @@
             border-radius: 20px;
             padding: 24px;
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.12);
+            border-color: #99f6e4;
         }
 
         .risk-row {
@@ -166,8 +213,15 @@
             justify-content: space-between;
             align-items: center;
             gap: 14px;
-            padding: 14px 0;
+            padding: 14px 8px;
             border-bottom: 1px solid #e5e7eb;
+            border-radius: 10px;
+            transition: all 0.22s ease;
+        }
+
+        .risk-row:hover {
+            background: #f8fafc;
+            transform: translateX(4px);
         }
 
         .risk-row:last-child {
@@ -191,6 +245,11 @@
             font-size: 12px;
             font-weight: 900;
             white-space: nowrap;
+            transition: all 0.22s ease;
+        }
+
+        .risk-row:hover .risk-pill {
+            transform: scale(1.05);
         }
 
         .pill-warning {
@@ -248,6 +307,13 @@
             border-radius: 16px;
             padding: 22px;
             box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #99f6e4;
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.10);
         }
 
         .icon {
@@ -259,6 +325,11 @@
             justify-content: center;
             font-weight: 900;
             margin-bottom: 16px;
+            transition: all 0.25s ease;
+        }
+
+        .card:hover .icon {
+            transform: scale(1.08) rotate(-2deg);
         }
 
         .icon-teal {
@@ -315,6 +386,12 @@
             border-radius: 14px;
             padding: 18px;
             line-height: 1.7;
+            transition: all 0.25s ease;
+        }
+
+        .notice:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(245, 158, 11, 0.14);
         }
 
         .footer {
@@ -361,7 +438,9 @@
             <div class="brand">
                 <div class="brand-logo">CL</div>
                 <div>
-                    <div class="brand-title">CrisisLens</div>
+                    <div class="brand-title">
+                        <span style="color:#006A4E;">Crisis</span><span style="color:#F42A41;">Lens</span>
+                    </div>
                     <div class="brand-subtitle">Disaster Intelligence Platform</div>
                 </div>
             </div>
