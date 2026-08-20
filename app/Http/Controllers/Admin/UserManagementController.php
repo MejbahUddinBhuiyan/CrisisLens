@@ -13,15 +13,40 @@ use Spatie\Permission\Models\Role;
 
 class UserManagementController extends Controller
 {
-    public function index(): View
-    {
-        $users = User::query()
-            ->with('roles')
-            ->latest()
-            ->paginate(10);
+public function index(): View
+{
+    $users = User::query()
+        ->with('roles')
+        ->when(request('search'), function ($query, $search) {
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        })
+        ->when(request('role'), function ($query, $role) {
+            $query->whereHas('roles', function ($roleQuery) use ($role) {
+                $roleQuery->where('name', $role);
+            });
+        })
+        ->when(request('verification') === 'verified', function ($query) {
+            $query->whereNotNull('email_verified_at');
+        })
+        ->when(request('verification') === 'unverified', function ($query) {
+            $query->whereNull('email_verified_at');
+        })
+        ->when(request('date'), function ($query, $date) {
+            $query->whereDate('created_at', $date);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
 
-        return view('admin.users.index', compact('users'));
-    }
+    $roles = Role::query()
+        ->orderBy('name')
+        ->get();
+
+    return view('admin.users.index', compact('users', 'roles'));
+}
 
     public function create(): View
     {
