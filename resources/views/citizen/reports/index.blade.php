@@ -5,6 +5,7 @@
                 <h2 style="font-size:22px; font-weight:700; color:#172033;">
                     My Incident Reports (আমার ঘটনার রিপোর্ট)
                 </h2>
+
                 <p style="margin-top:6px; font-size:14px; color:#64748b;">
                     Track your submitted reports and their review status.
                     <br>
@@ -20,7 +21,8 @@
     </x-slot>
 
     <div style="padding:32px 0;">
-        <div style="max-width:1200px; margin:0 auto; padding:0 16px;">
+        <div style="max-width:1250px; margin:0 auto; padding:0 16px;">
+
             @if (session('success'))
                 <div style="margin-bottom:24px; border:1px solid #bbf7d0; background:#f0fdf4; color:#15803d; padding:16px; border-radius:12px;">
                     {{ session('success') }}
@@ -60,6 +62,10 @@
                                     <th style="padding:14px 20px; text-align:left; font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase;">
                                         Submitted (জমা)
                                     </th>
+
+                                    <th style="padding:14px 20px; text-align:left; font-size:12px; font-weight:700; color:#64748b; text-transform:uppercase;">
+                                        Action (কাজ)
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -85,6 +91,15 @@
                                             'critical' => 'background:#fee2e2;color:#b91c1c;',
                                             default => 'background:#f3f4f6;color:#374151;',
                                         };
+
+                                        $statusStyle = match($report->status) {
+                                            'pending' => 'background:#fef3c7;color:#b45309;',
+                                            'verified' => 'background:#dcfce7;color:#15803d;',
+                                            'rejected' => 'background:#fee2e2;color:#b91c1c;',
+                                            'resolved' => 'background:#e0f2fe;color:#0369a1;',
+                                            'under_review' => 'background:#dbeafe;color:#1d4ed8;',
+                                            default => 'background:#f3f4f6;color:#374151;',
+                                        };
                                     @endphp
 
                                     <tr style="border-top:1px solid #e5e7eb;">
@@ -93,20 +108,20 @@
                                         </td>
 
                                         <td style="padding:16px 20px; font-size:14px;">
-                                            <span style="{{ $urgencyStyle }} padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700;">
+                                            <span style="{{ $urgencyStyle }} padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap;">
                                                 {{ \App\Support\BilingualLabel::urgency($report->urgency) }}
                                             </span>
                                         </td>
 
                                         <td style="padding:16px 20px; font-size:14px;">
-                                            <span style="background:#fef3c7; color:#b45309; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700;">
+                                            <span style="{{ $statusStyle }} padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap;">
                                                 {{ \App\Support\BilingualLabel::reportStatus($report->status) }}
                                             </span>
                                         </td>
 
                                         <td style="padding:16px 20px; font-size:14px;">
                                             <div>
-                                                <span style="{{ $predictionStyle }} padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700;">
+                                                <span style="{{ $predictionStyle }} padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap;">
                                                     {{ \App\Support\BilingualLabel::riskLevel($predictionLabel) }}
                                                 </span>
 
@@ -123,15 +138,34 @@
                                         </td>
 
                                         <td style="padding:16px 20px; font-size:14px; color:#475569;">
-                                            {{ $report->latitude }}, {{ $report->longitude }}
+                                            <div style="line-height:1.6;">
+                                                {{ $report->latitude }}, {{ $report->longitude }}
+
+                                                <br>
+
+                                                <a href="https://www.google.com/maps?q={{ $report->latitude }},{{ $report->longitude }}"
+                                                   target="_blank"
+                                                   style="font-size:12px; color:#0F766E; font-weight:800; text-decoration:none;">
+                                                    Map (মানচিত্র)
+                                                </a>
+                                            </div>
                                         </td>
 
                                         <td style="padding:16px 20px; font-size:14px; color:#475569;">
-                                            {{ $report->images_count ?? $report->images->count() }}
+                                            <span style="display:inline-block; background:#f1f5f9; color:#334155; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:800;">
+                                                {{ $report->images_count ?? $report->images->count() }}
+                                            </span>
                                         </td>
 
-                                        <td style="padding:16px 20px; font-size:14px; color:#475569;">
+                                        <td style="padding:16px 20px; font-size:14px; color:#475569; white-space:nowrap;">
                                             {{ $report->created_at->format('M d, Y h:i A') }}
+                                        </td>
+
+                                        <td style="padding:16px 20px; font-size:14px; white-space:nowrap;">
+                                            <a href="{{ route('citizen.reports.show', $report) }}"
+                                               style="display:inline-block; background:#0F766E; color:white; padding:8px 12px; border-radius:8px; font-size:13px; font-weight:800; text-decoration:none;">
+                                                View Details (বিস্তারিত)
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -101,6 +101,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/reports', [CitizenReportController::class, 'index'])->name('reports.index');
             Route::get('/reports/create', [CitizenReportController::class, 'create'])->name('reports.create');
             Route::post('/reports', [CitizenReportController::class, 'store'])->name('reports.store');
+            Route::get('/reports/{report}', [CitizenReportController::class, 'show'])->name('reports.show');
         });
 
     Route::prefix('citizen')

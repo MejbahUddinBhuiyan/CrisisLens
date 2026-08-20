@@ -67,4 +67,18 @@ class ReportController extends Controller
             ->route('citizen.reports.index')
             ->with('success', 'Incident report submitted successfully. It is now pending authority review.');
     }
+
+    public function show(Report $report): View
+    {
+        abort_unless($report->user_id === Auth::id(), 403);
+
+        $report->load([
+            'images',
+            'predictions' => function ($query) {
+                $query->latest();
+            },
+        ]);
+
+        return view('citizen.reports.show', compact('report'));
+    }
 }
