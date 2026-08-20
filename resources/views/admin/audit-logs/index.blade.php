@@ -58,7 +58,7 @@
 
                             @foreach ($events as $event)
                                 <option value="{{ $event }}" @selected(request('event') === $event)>
-                                    {{ $event }}
+                                    {{ ucwords(str_replace('_', ' ', $event)) }}
                                 </option>
                             @endforeach
                         </select>
@@ -111,6 +111,7 @@
                     <p style="margin:0; font-size:13px; font-weight:800; color:#64748b;">
                         Showing Logs (দেখানো লগ)
                     </p>
+
                     <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#172033;">
                         {{ $activities->count() }}
                     </h3>
@@ -120,6 +121,7 @@
                     <p style="margin:0; font-size:13px; font-weight:800; color:#64748b;">
                         Total Records (মোট রেকর্ড)
                     </p>
+
                     <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#0369a1;">
                         {{ $activities->total() }}
                     </h3>
@@ -129,6 +131,7 @@
                     <p style="margin:0; font-size:13px; font-weight:800; color:#64748b;">
                         Current Page (বর্তমান পেজ)
                     </p>
+
                     <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#0F766E;">
                         {{ $activities->currentPage() }}
                     </h3>
@@ -139,6 +142,7 @@
                         <p style="margin:0; font-size:13px; font-weight:800; color:#0369a1;">
                             Filter Status (ফিল্টার অবস্থা)
                         </p>
+
                         <h3 style="margin:8px 0 0; font-size:22px; font-weight:900; color:#0369a1;">
                             Active
                         </h3>
@@ -176,6 +180,65 @@
 
                             <tbody>
                                 @foreach ($activities as $activity)
+                                    @php
+                                        $properties = $activity->properties?->toArray() ?? [];
+
+                                        $friendlyLabels = [
+                                            'status' => 'Status',
+                                            'response_note' => 'Response Note',
+                                            'validation_note' => 'Validation Note',
+                                            'title' => 'Title',
+                                            'name' => 'Name',
+                                            'email' => 'Email',
+                                            'category' => 'Category',
+                                            'language' => 'Language',
+                                            'risk_level' => 'Risk Level',
+                                            'message' => 'Message',
+                                            'description' => 'Description',
+                                            'is_active' => 'Active Status',
+                                            'is_verified' => 'Verification Status',
+                                            'is_approved' => 'Approval Status',
+                                            'requires_human_approval' => 'Human Approval Required',
+                                            'current_occupancy' => 'Current Occupancy',
+                                            'capacity' => 'Capacity',
+                                            'facilities' => 'Facilities',
+                                            'published_at' => 'Published At',
+                                            'approved_at' => 'Approved At',
+                                            'validated_at' => 'Validated At',
+                                        ];
+
+                                        $readableValue = function ($value) {
+                                            if (is_bool($value)) {
+                                                return $value ? 'Yes' : 'No';
+                                            }
+
+                                            if (is_array($value)) {
+                                                $items = [];
+
+                                                foreach ($value as $item) {
+                                                    if (is_array($item)) {
+                                                        $items[] = implode(', ', array_map(
+                                                            fn ($innerValue) => is_array($innerValue) ? 'Multiple values' : ucfirst(str_replace('_', ' ', (string) $innerValue)),
+                                                            $item
+                                                        ));
+                                                    } else {
+                                                        $items[] = ucfirst(str_replace('_', ' ', (string) $item));
+                                                    }
+                                                }
+
+                                                return count($items) ? implode(', ', $items) : 'N/A';
+                                            }
+
+                                            if ($value === null || $value === '') {
+                                                return 'N/A';
+                                            }
+
+                                            return ucfirst(str_replace('_', ' ', (string) $value));
+                                        };
+
+                                        $eventLabel = ucwords(str_replace('_', ' ', $activity->event ?? 'activity'));
+                                    @endphp
+
                                     <tr style="border-top:1px solid #e5e7eb;">
                                         <td style="padding:16px 18px; font-size:14px; color:#475569; white-space:nowrap;">
                                             {{ $activity->created_at->format('M d, Y') }}
@@ -203,11 +266,11 @@
 
                                         <td style="padding:16px 18px; font-size:14px;">
                                             <span style="background:#ccfbf1; color:#0F766E; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:900; white-space:nowrap;">
-                                                {{ $activity->event ?? 'activity' }}
+                                                {{ $eventLabel }}
                                             </span>
 
                                             <p style="margin:8px 0 0; color:#475569; font-size:13px;">
-                                                {{ $activity->description }}
+                                                {{ ucwords(str_replace('_', ' ', $activity->description)) }}
                                             </p>
                                         </td>
 
@@ -227,17 +290,75 @@
                                             @endif
                                         </td>
 
-                                        <td style="padding:16px 18px; font-size:13px; color:#475569; min-width:280px;">
-                                            @if ($activity->properties && $activity->properties->count())
+                                        <td style="padding:16px 18px; font-size:13px; color:#475569; min-width:300px; max-width:390px;">
+                                            @if (count($properties))
                                                 <details>
                                                     <summary style="cursor:pointer; color:#0F766E; font-weight:900;">
-                                                        View Changes
+                                                        View Details
                                                     </summary>
 
-                                                    <pre style="margin-top:10px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:12px; white-space:pre-wrap; word-break:break-word; font-size:12px; color:#334155;">{{ json_encode($activity->properties->toArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
+                                                    <div style="margin-top:10px; background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:12px; max-height:230px; overflow:auto;">
+                                                        @if (isset($properties['old']) || isset($properties['attributes']))
+                                                            @php
+                                                                $oldValues = $properties['old'] ?? [];
+                                                                $newValues = $properties['attributes'] ?? [];
+                                                            @endphp
+
+                                                            @if (count($newValues))
+                                                                @foreach ($newValues as $key => $newValue)
+                                                                    @php
+                                                                        $label = $friendlyLabels[$key] ?? ucwords(str_replace('_', ' ', $key));
+                                                                        $oldValue = $oldValues[$key] ?? null;
+                                                                    @endphp
+
+                                                                    <div style="padding:8px 0; border-bottom:1px solid #e5e7eb;">
+                                                                        <strong style="display:block; color:#172033;">
+                                                                            {{ $label }}
+                                                                        </strong>
+
+                                                                        @if (array_key_exists($key, $oldValues))
+                                                                            <span style="color:#64748b;">
+                                                                                From:
+                                                                                <strong>{{ $readableValue($oldValue) }}</strong>
+                                                                            </span>
+
+                                                                            <br>
+
+                                                                            <span style="color:#0F766E;">
+                                                                                To:
+                                                                                <strong>{{ $readableValue($newValue) }}</strong>
+                                                                            </span>
+                                                                        @else
+                                                                            <span style="color:#0F766E;">
+                                                                                {{ $readableValue($newValue) }}
+                                                                            </span>
+                                                                        @endif
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <span style="color:#64748b;">No changed fields</span>
+                                                            @endif
+                                                        @else
+                                                            @foreach ($properties as $key => $value)
+                                                                @php
+                                                                    $label = $friendlyLabels[$key] ?? ucwords(str_replace('_', ' ', $key));
+                                                                @endphp
+
+                                                                <div style="padding:8px 0; border-bottom:1px solid #e5e7eb;">
+                                                                    <strong style="display:block; color:#172033;">
+                                                                        {{ $label }}
+                                                                    </strong>
+
+                                                                    <span style="color:#475569;">
+                                                                        {{ $readableValue($value) }}
+                                                                    </span>
+                                                                </div>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
                                                 </details>
                                             @else
-                                                <span style="color:#64748b;">No extra data</span>
+                                                <span style="color:#64748b;">No extra details</span>
                                             @endif
                                         </td>
                                     </tr>
