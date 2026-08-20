@@ -195,10 +195,20 @@
                                style="width:100%;">
 
                         <p style="margin:10px 0 0; font-size:13px; color:#64748b; line-height:1.6;">
-                            You can upload up to 5 images. Allowed formats: JPG, JPEG, PNG, WEBP. Maximum 5MB each.
+                            You can upload up to 5 images. You may select images together or one by one.
                             <br>
-                            সর্বোচ্চ ৫টি ছবি আপলোড করা যাবে। ফরম্যাট: JPG, JPEG, PNG, WEBP। প্রতিটি সর্বোচ্চ ৫MB।
+                            সর্বোচ্চ ৫টি ছবি আপলোড করা যাবে। একসাথে অথবা একে একে ছবি নির্বাচন করা যাবে।
                         </p>
+
+                        <p style="margin:6px 0 0; font-size:13px; color:#64748b; line-height:1.6;">
+                            Allowed formats: JPG, JPEG, PNG, WEBP. Maximum 5MB each.
+                            <br>
+                            ফরম্যাট: JPG, JPEG, PNG, WEBP। প্রতিটি সর্বোচ্চ ৫MB।
+                        </p>
+                    </div>
+
+                    <div id="imageCounter"
+                         style="display:none; margin-top:12px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; border-radius:10px; padding:10px; font-size:13px; font-weight:800;">
                     </div>
 
                     <div id="imagePreview"
@@ -323,17 +333,54 @@
 
         const imagesInput = document.getElementById('images');
         const imagePreview = document.getElementById('imagePreview');
+        const imageCounter = document.getElementById('imageCounter');
+
+        let selectedImageFiles = [];
 
         imagesInput.addEventListener('change', function () {
-            imagePreview.innerHTML = '';
+            const newFiles = Array.from(this.files);
 
-            const files = Array.from(this.files).slice(0, 5);
-
-            files.forEach(function (file) {
+            newFiles.forEach(function (file) {
                 if (!file.type.startsWith('image/')) {
                     return;
                 }
 
+                const alreadySelected = selectedImageFiles.some(function (selectedFile) {
+                    return selectedFile.name === file.name &&
+                           selectedFile.size === file.size &&
+                           selectedFile.lastModified === file.lastModified;
+                });
+
+                if (!alreadySelected && selectedImageFiles.length < 5) {
+                    selectedImageFiles.push(file);
+                }
+            });
+
+            updateFileInput();
+            renderImagePreview();
+        });
+
+        function updateFileInput() {
+            const dataTransfer = new DataTransfer();
+
+            selectedImageFiles.forEach(function (file) {
+                dataTransfer.items.add(file);
+            });
+
+            imagesInput.files = dataTransfer.files;
+        }
+
+        function renderImagePreview() {
+            imagePreview.innerHTML = '';
+
+            if (selectedImageFiles.length > 0) {
+                imageCounter.style.display = 'block';
+                imageCounter.innerHTML = `${selectedImageFiles.length} image(s) selected. <br> ${selectedImageFiles.length}টি ছবি নির্বাচন করা হয়েছে।`;
+            } else {
+                imageCounter.style.display = 'none';
+            }
+
+            selectedImageFiles.forEach(function (file, index) {
                 const reader = new FileReader();
 
                 reader.onload = function (event) {
@@ -343,6 +390,7 @@
                     wrapper.style.overflow = 'hidden';
                     wrapper.style.background = 'white';
                     wrapper.style.boxShadow = '0 1px 3px rgba(15,23,42,0.08)';
+                    wrapper.style.position = 'relative';
 
                     const img = document.createElement('img');
                     img.src = event.target.result;
@@ -351,6 +399,28 @@
                     img.style.objectFit = 'cover';
                     img.style.display = 'block';
 
+                    const removeButton = document.createElement('button');
+                    removeButton.type = 'button';
+                    removeButton.textContent = '×';
+                    removeButton.title = 'Remove image';
+                    removeButton.style.position = 'absolute';
+                    removeButton.style.top = '6px';
+                    removeButton.style.right = '6px';
+                    removeButton.style.width = '26px';
+                    removeButton.style.height = '26px';
+                    removeButton.style.border = 'none';
+                    removeButton.style.borderRadius = '999px';
+                    removeButton.style.background = '#dc2626';
+                    removeButton.style.color = 'white';
+                    removeButton.style.fontWeight = '900';
+                    removeButton.style.cursor = 'pointer';
+
+                    removeButton.addEventListener('click', function () {
+                        selectedImageFiles.splice(index, 1);
+                        updateFileInput();
+                        renderImagePreview();
+                    });
+
                     const caption = document.createElement('div');
                     caption.textContent = file.name.length > 18 ? file.name.substring(0, 18) + '...' : file.name;
                     caption.style.padding = '8px';
@@ -358,6 +428,7 @@
                     caption.style.color = '#64748b';
 
                     wrapper.appendChild(img);
+                    wrapper.appendChild(removeButton);
                     wrapper.appendChild(caption);
 
                     imagePreview.appendChild(wrapper);
@@ -365,6 +436,20 @@
 
                 reader.readAsDataURL(file);
             });
-        });
+
+            if (selectedImageFiles.length >= 5) {
+                const limitNotice = document.createElement('div');
+                limitNotice.style.gridColumn = '1 / -1';
+                limitNotice.style.background = '#fffbeb';
+                limitNotice.style.border = '1px solid #fcd34d';
+                limitNotice.style.color = '#92400e';
+                limitNotice.style.borderRadius = '10px';
+                limitNotice.style.padding = '12px';
+                limitNotice.style.fontSize = '13px';
+                limitNotice.innerHTML = 'Maximum 5 images selected. <br> সর্বোচ্চ ৫টি ছবি নির্বাচন করা হয়েছে।';
+
+                imagePreview.appendChild(limitNotice);
+            }
+        }
     </script>
 </x-app-layout>

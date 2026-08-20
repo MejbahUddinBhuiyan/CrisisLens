@@ -4,25 +4,24 @@ namespace App\Http\Controllers\Citizen;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreReportRequest;
+use App\Jobs\ProcessReportFloodRiskPrediction;
 use App\Models\Report;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use App\Jobs\ProcessReportFloodRiskPrediction;
 
 class ReportController extends Controller
 {
     public function index(): View
     {
         $reports = Report::query()
-        ->with(['images', 'predictions' => function ($query) {
-        $query->latest();
-        }])
-        ->withCount('images')
-        ->where('user_id', Auth::id())
-        ->latest()
-        ->paginate(10);
+            ->with(['images', 'predictions' => function ($query) {
+                $query->latest();
+            }])
+            ->withCount('images')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->paginate(10);
 
         return view('citizen.reports.index', compact('reports'));
     }
@@ -61,11 +60,8 @@ class ReportController extends Controller
                 ]);
             }
         }
-        ProcessReportFloodRiskPrediction::dispatch($report);
 
-        return redirect()
-        ->route('citizen.reports.index')
-        ->with('success', 'Incident report submitted successfully. It is now pending authority review.');
+        ProcessReportFloodRiskPrediction::dispatch($report);
 
         return redirect()
             ->route('citizen.reports.index')
