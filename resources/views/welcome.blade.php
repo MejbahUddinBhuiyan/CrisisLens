@@ -706,15 +706,30 @@
         </div>
     </section>
 
-    <footer class="footer">
-        <div class="container">
-            <strong>CrisisLens</strong>
-            <p>
-                AI-assisted disaster intelligence and emergency response platform.
-                <br>
-                AI সহায়তাপ্রাপ্ত দুর্যোগ বুদ্ধিমত্তা ও জরুরি সাড়া প্ল্যাটফর্ম।
-            </p>
+<footer class="footer">
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap;">
+            <div>
+                <strong style="font-size:18px;">
+                    <span style="color:#22c55e;">Crisis</span><span style="color:#ef4444;">Lens</span>
+                </strong>
+
+                <p>
+                    AI-assisted disaster intelligence and emergency response platform.
+                    <br>
+                    AI সহায়তাপ্রাপ্ত দুর্যোগ বুদ্ধিমত্তা ও জরুরি সাড়া প্ল্যাটফর্ম।
+                </p>
+            </div>
+
+            <div style="text-align:right;">
+                <p style="margin:0; color:#cbd5e1; font-size:14px; line-height:1.7;">
+                    © 2026 CrisisLens. All rights reserved.
+                    <br>
+                    Developed by <strong style="color:white;">Mejbah Uddin Bhuiyan</strong>
+                </p>
+            </div>
         </div>
-    </footer>
+    </div>
+</footer>
 </body>
 </html>
