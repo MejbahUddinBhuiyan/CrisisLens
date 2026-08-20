@@ -51,9 +51,12 @@ Route::get('/ai-test/flood-risk', [AiTestController::class, 'floodRisk'])
 |--------------------------------------------------------------------------
 | Authenticated Routes
 |--------------------------------------------------------------------------
+| Email verification intentionally skipped for easier cPanel deployment
+| and emergency-use accessibility.
+|--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', DashboardRedirectController::class)
         ->name('dashboard');
 
@@ -232,15 +235,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/alerts', [CitizenAlertController::class, 'index'])
                 ->name('alerts.index');
         });
-});
 
-/*
-|--------------------------------------------------------------------------
-| Profile Routes
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Routes
+    |--------------------------------------------------------------------------
+    */
 
-Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
