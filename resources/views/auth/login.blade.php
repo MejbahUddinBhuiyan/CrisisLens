@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <div style="margin-bottom:18px; background:#eff6ff; border:1px solid #bfdbfe; color:#1d4ed8; padding:14px; border-radius:10px; line-height:1.6; font-size:14px;">
+    <strong>Login Notice (লগইন বার্তা):</strong>
+    Login is needed only for submitting reports, tracking reports, and using role-based dashboards.
+    <br>
+    রিপোর্ট জমা, রিপোর্ট ট্র্যাক এবং রোলভিত্তিক ড্যাশবোর্ড ব্যবহারের জন্য লগইন প্রয়োজন।
+    </div>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 

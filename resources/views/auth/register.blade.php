@@ -1,4 +1,10 @@
 <x-guest-layout>
+    <div style="margin-bottom:18px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; padding:14px; border-radius:10px; line-height:1.6; font-size:14px;">
+    <strong>Citizen Account (নাগরিক অ্যাকাউন্ট):</strong>
+    Create an account to submit incident reports and track AI prediction status.
+    <br>
+    ঘটনার রিপোর্ট জমা দিতে এবং AI পূর্বাভাসের অবস্থা দেখতে অ্যাকাউন্ট তৈরি করুন।
+    </div>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
