@@ -11,15 +11,62 @@ use Illuminate\View\View;
 
 class EmergencyDocumentController extends Controller
 {
-    public function index(): View
-    {
-        $documents = EmergencyDocument::query()
-            ->with('uploader')
-            ->latest()
-            ->paginate(10);
+public function index(): View
+{
+    $documents = EmergencyDocument::query()
+        ->with('uploader')
+        ->when(request('search'), function ($query, $search) {
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('category', 'like', '%' . $search . '%')
+                    ->orWhere('language', 'like', '%' . $search . '%')
+                    ->orWhere('content', 'like', '%' . $search . '%')
+                    ->orWhereHas('uploader', function ($uploaderQuery) use ($search) {
+                        $uploaderQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+            });
+        })
+        ->when(request('category'), function ($query, $category) {
+            $query->where('category', $category);
+        })
+        ->when(request('language'), function ($query, $language) {
+            $query->where('language', $language);
+        })
+        ->when(request('active_status'), function ($query, $status) {
+            if ($status === 'active') {
+                $query->where('is_active', true);
+            }
 
-        return view('authority.emergency-documents.index', compact('documents'));
-    }
+            if ($status === 'inactive') {
+                $query->where('is_active', false);
+            }
+        })
+        ->when(request('verified_status'), function ($query, $status) {
+            if ($status === 'verified') {
+                $query->where('is_verified', true);
+            }
+
+            if ($status === 'unverified') {
+                $query->where('is_verified', false);
+            }
+        })
+        ->when(request('date'), function ($query, $date) {
+            $query->whereDate('created_at', $date);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    $categories = EmergencyDocument::query()
+        ->whereNotNull('category')
+        ->select('category')
+        ->distinct()
+        ->orderBy('category')
+        ->pluck('category');
+
+    return view('authority.emergency-documents.index', compact('documents', 'categories'));
+}
 
     public function create(): View
     {
