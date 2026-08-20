@@ -11,15 +11,50 @@ use Illuminate\View\View;
 
 class AlertController extends Controller
 {
-    public function index(): View
-    {
-        $alerts = Alert::query()
-            ->with(['publisher', 'approver'])
-            ->latest()
-            ->paginate(10);
+public function index(): View
+{
+    $alerts = Alert::query()
+        ->with(['publisher', 'approver', 'disaster', 'location'])
+        ->when(request('search'), function ($query, $search) {
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('message', 'like', '%' . $search . '%')
+                    ->orWhere('risk_level', 'like', '%' . $search . '%')
+                    ->orWhere('status', 'like', '%' . $search . '%')
+                    ->orWhereHas('publisher', function ($publisherQuery) use ($search) {
+                        $publisherQuery->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('email', 'like', '%' . $search . '%');
+                    });
+            });
+        })
+        ->when(request('risk_level'), function ($query, $riskLevel) {
+            $query->where('risk_level', $riskLevel);
+        })
+        ->when(request('status'), function ($query, $status) {
+            $query->where('status', $status);
+        })
+        ->when(request('approval'), function ($query, $approval) {
+            if ($approval === 'approved') {
+                $query->where('is_approved', true);
+            }
 
-        return view('authority.alerts.index', compact('alerts'));
-    }
+            if ($approval === 'not_approved') {
+                $query->where('is_approved', false);
+            }
+
+            if ($approval === 'requires_approval') {
+                $query->where('requires_human_approval', true);
+            }
+        })
+        ->when(request('date'), function ($query, $date) {
+            $query->whereDate('created_at', $date);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('authority.alerts.index', compact('alerts'));
+}
 
     public function create(): View
     {
