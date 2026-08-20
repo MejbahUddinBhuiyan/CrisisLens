@@ -11,17 +11,47 @@ use Illuminate\View\View;
 
 class ShelterController extends Controller
 {
-    public function index(): View
-    {
-        $shelters = Shelter::query()
-            ->with(['statuses' => function ($query) {
-                $query->latest();
-            }])
-            ->latest()
-            ->paginate(10);
+public function index(): View
+{
+    $shelters = Shelter::query()
+        ->when(request('search'), function ($query, $search) {
+            $query->where(function ($subQuery) use ($search) {
+                $subQuery->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%')
+                    ->orWhere('contact', 'like', '%' . $search . '%')
+                    ->orWhere('facilities', 'like', '%' . $search . '%');
+            });
+        })
+        ->when(request('status'), function ($query, $status) {
+            if ($status === 'active') {
+                $query->where('is_active', true);
+            }
 
-        return view('authority.shelters.index', compact('shelters'));
-    }
+            if ($status === 'inactive') {
+                $query->where('is_active', false);
+            }
+
+            if ($status === 'available') {
+                $query->whereColumn('current_occupancy', '<', 'capacity')
+                    ->where('is_active', true);
+            }
+
+            if ($status === 'full') {
+                $query->whereColumn('current_occupancy', '>=', 'capacity');
+            }
+        })
+        ->when(request('facility'), function ($query, $facility) {
+            $query->whereJsonContains('facilities', $facility);
+        })
+        ->when(request('min_capacity'), function ($query, $capacity) {
+            $query->where('capacity', '>=', (int) $capacity);
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    return view('authority.shelters.index', compact('shelters'));
+}
 
     public function create(): View
     {
