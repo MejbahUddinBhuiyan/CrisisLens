@@ -132,7 +132,7 @@
                         </a>
 
                         <a href="{{ route('citizen.reports.index') }}"
-                           class="cl-nav-link {{ request()->routeIs('citizen.reports.index') ? 'active' : '' }}">
+                           class="cl-nav-link {{ request()->routeIs('citizen.reports.*') && ! request()->routeIs('citizen.reports.create') ? 'active' : '' }}">
                             My Reports
                         </a>
 
@@ -200,6 +200,11 @@
                         <a href="{{ route('authority.alerts.index') }}"
                            class="cl-nav-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                             Alerts
+                        </a>
+
+                        <a href="{{ route('admin.audit-logs.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}">
+                            Audit Logs
                         </a>
                     @endrole
                 </div>
@@ -273,7 +278,7 @@
                 </a>
 
                 <a href="{{ route('citizen.reports.index') }}"
-                   class="cl-mobile-link {{ request()->routeIs('citizen.reports.index') ? 'active' : '' }}">
+                   class="cl-mobile-link {{ request()->routeIs('citizen.reports.*') && ! request()->routeIs('citizen.reports.create') ? 'active' : '' }}">
                     My Reports
                 </a>
 
@@ -341,6 +346,11 @@
                 <a href="{{ route('authority.alerts.index') }}"
                    class="cl-mobile-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                     Alerts
+                </a>
+
+                <a href="{{ route('admin.audit-logs.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}">
+                    Audit Logs
                 </a>
             @endrole
         </div>

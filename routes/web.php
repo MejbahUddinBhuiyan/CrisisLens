@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserManagementController;
 use App\Http\Controllers\PublicPortal\PublicAlertController;
 use App\Http\Controllers\PublicPortal\PublicShelterController;
+use App\Http\Controllers\Admin\AuditLogController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -60,6 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/users', [UserManagementController::class, 'store'])->name('users.store');
             Route::get('/users/{user}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
             Route::patch('/users/{user}', [UserManagementController::class, 'update'])->name('users.update');
+            Route::get('/audit-logs', [AuditLogController::class, 'index'])
+                        ->name('audit-logs.index');
     });    
 
     Route::prefix('authority')
