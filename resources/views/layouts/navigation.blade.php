@@ -17,8 +17,9 @@
         }
 
         .cl-nav-link.active {
-            background: #f8fafc;
+            background: #ccfbf1;
             color: #006A4E;
+            box-shadow: inset 0 0 0 1px rgba(0, 106, 78, 0.15);
         }
 
         .cl-mobile-link {
@@ -35,6 +36,11 @@
             background: #ccfbf1;
             color: #006A4E;
             padding-left: 18px;
+        }
+
+        .cl-mobile-link.active {
+            background: #ccfbf1;
+            color: #006A4E;
         }
 
         .cl-account-button {
@@ -114,70 +120,85 @@
                 </div>
 
                 <div class="hidden sm:flex" style="align-items:center; gap:10px; flex-wrap:wrap;">
-                    <a href="{{ route('dashboard') }}" class="cl-nav-link active">
+                    <a href="{{ route('dashboard') }}"
+                       class="cl-nav-link {{ request()->routeIs('dashboard') || request()->routeIs('*.dashboard') ? 'active' : '' }}">
                         Dashboard
                     </a>
 
                     @role('Citizen')
-                        <a href="{{ route('citizen.reports.create') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.reports.create') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.reports.create') ? 'active' : '' }}">
                             Submit Report
                         </a>
 
-                        <a href="{{ route('citizen.reports.index') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.reports.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.reports.index') ? 'active' : '' }}">
                             My Reports
                         </a>
 
-                        <a href="{{ route('citizen.shelters.index') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.shelters.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.shelters.*') ? 'active' : '' }}">
                             Shelters
                         </a>
 
-                        <a href="{{ route('citizen.alerts.index') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.alerts.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.alerts.*') ? 'active' : '' }}">
                             Alerts
                         </a>
                     @endrole
 
                     @role('Emergency Responder')
-                        <a href="{{ route('responder.reports.index') }}" class="cl-nav-link">
+                        <a href="{{ route('responder.reports.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('responder.reports.*') ? 'active' : '' }}">
                             Reports
                         </a>
 
-                        <a href="{{ route('citizen.shelters.index') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.shelters.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.shelters.*') ? 'active' : '' }}">
                             Shelters
                         </a>
 
-                        <a href="{{ route('citizen.alerts.index') }}" class="cl-nav-link">
+                        <a href="{{ route('citizen.alerts.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('citizen.alerts.*') ? 'active' : '' }}">
                             Alerts
                         </a>
                     @endrole
 
                     @role('Authority Administrator')
-                        <a href="{{ route('authority.reports.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.reports.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.reports.*') ? 'active' : '' }}">
                             Review Reports
                         </a>
 
-                        <a href="{{ route('authority.shelters.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.shelters.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.shelters.*') ? 'active' : '' }}">
                             Shelters
                         </a>
 
-                        <a href="{{ route('authority.alerts.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.alerts.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                             Alerts
                         </a>
                     @endrole
 
                     @role('Super Administrator')
-                        <a href="{{ route('admin.users.index') }}" class="cl-nav-link">
+                        <a href="{{ route('admin.users.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             Users
                         </a>
 
-                        <a href="{{ route('authority.reports.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.reports.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.reports.*') ? 'active' : '' }}">
                             Reports
                         </a>
 
-                        <a href="{{ route('authority.shelters.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.shelters.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.shelters.*') ? 'active' : '' }}">
                             Shelters
                         </a>
 
-                        <a href="{{ route('authority.alerts.index') }}" class="cl-nav-link">
+                        <a href="{{ route('authority.alerts.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                             Alerts
                         </a>
                     @endrole
@@ -240,70 +261,85 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden" style="border-top:1px solid #e5e7eb; background:white;">
         <div style="padding:12px 16px; display:grid; gap:8px;">
-            <a href="{{ route('dashboard') }}" class="cl-mobile-link" style="background:#f8fafc;">
+            <a href="{{ route('dashboard') }}"
+               class="cl-mobile-link {{ request()->routeIs('dashboard') || request()->routeIs('*.dashboard') ? 'active' : '' }}">
                 Dashboard
             </a>
 
             @role('Citizen')
-                <a href="{{ route('citizen.reports.create') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.reports.create') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.reports.create') ? 'active' : '' }}">
                     Submit Report
                 </a>
 
-                <a href="{{ route('citizen.reports.index') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.reports.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.reports.index') ? 'active' : '' }}">
                     My Reports
                 </a>
 
-                <a href="{{ route('citizen.shelters.index') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.shelters.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.shelters.*') ? 'active' : '' }}">
                     Shelters
                 </a>
 
-                <a href="{{ route('citizen.alerts.index') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.alerts.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.alerts.*') ? 'active' : '' }}">
                     Alerts
                 </a>
             @endrole
 
             @role('Emergency Responder')
-                <a href="{{ route('responder.reports.index') }}" class="cl-mobile-link">
+                <a href="{{ route('responder.reports.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('responder.reports.*') ? 'active' : '' }}">
                     Reports
                 </a>
 
-                <a href="{{ route('citizen.shelters.index') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.shelters.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.shelters.*') ? 'active' : '' }}">
                     Shelters
                 </a>
 
-                <a href="{{ route('citizen.alerts.index') }}" class="cl-mobile-link">
+                <a href="{{ route('citizen.alerts.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('citizen.alerts.*') ? 'active' : '' }}">
                     Alerts
                 </a>
             @endrole
 
             @role('Authority Administrator')
-                <a href="{{ route('authority.reports.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.reports.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.reports.*') ? 'active' : '' }}">
                     Review Reports
                 </a>
 
-                <a href="{{ route('authority.shelters.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.shelters.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.shelters.*') ? 'active' : '' }}">
                     Shelters
                 </a>
 
-                <a href="{{ route('authority.alerts.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.alerts.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                     Alerts
                 </a>
             @endrole
 
             @role('Super Administrator')
-                <a href="{{ route('admin.users.index') }}" class="cl-mobile-link">
+                <a href="{{ route('admin.users.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     Users
                 </a>
 
-                <a href="{{ route('authority.reports.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.reports.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.reports.*') ? 'active' : '' }}">
                     Reports
                 </a>
 
-                <a href="{{ route('authority.shelters.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.shelters.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.shelters.*') ? 'active' : '' }}">
                     Shelters
                 </a>
 
-                <a href="{{ route('authority.alerts.index') }}" class="cl-mobile-link">
+                <a href="{{ route('authority.alerts.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                     Alerts
                 </a>
             @endrole
