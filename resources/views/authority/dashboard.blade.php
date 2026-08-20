@@ -32,6 +32,32 @@
                     নাগরিক রিপোর্ট পর্যালোচনা, AI পূর্বাভাস যাচাই, আশ্রয়কেন্দ্র পরিচালনা এবং অনুমোদিত সতর্কতা প্রকাশ করতে এই ড্যাশবোর্ড ব্যবহার করুন।
                 </p>
             </div>
+            <div style="margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px;">
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+        <p style="margin:0; font-size:13px; font-weight:700; color:#64748b;">Total Reports (মোট রিপোর্ট)</p>
+        <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#172033;">{{ $stats['total_reports'] ?? 0 }}</h3>
+    </div>
+
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+        <p style="margin:0; font-size:13px; font-weight:700; color:#64748b;">Pending (অপেক্ষমাণ)</p>
+        <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#b45309;">{{ $stats['pending_reports'] ?? 0 }}</h3>
+    </div>
+
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+        <p style="margin:0; font-size:13px; font-weight:700; color:#64748b;">Verified (যাচাই করা)</p>
+        <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#15803d;">{{ $stats['verified_reports'] ?? 0 }}</h3>
+    </div>
+
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+        <p style="margin:0; font-size:13px; font-weight:700; color:#64748b;">Active Shelters (সক্রিয় আশ্রয়কেন্দ্র)</p>
+        <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#0F766E;">{{ $stats['active_shelters'] ?? 0 }}</h3>
+    </div>
+
+    <div style="background:white; border:1px solid #e5e7eb; border-radius:14px; padding:18px; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+        <p style="margin:0; font-size:13px; font-weight:700; color:#64748b;">Published Alerts (প্রকাশিত সতর্কতা)</p>
+        <h3 style="margin:8px 0 0; font-size:28px; font-weight:900; color:#b91c1c;">{{ $stats['published_alerts'] ?? 0 }}</h3>
+    </div>
+</div>
 
             <div style="margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px;">
                 <a href="{{ route('authority.reports.index') }}"
