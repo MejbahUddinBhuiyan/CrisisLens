@@ -5,9 +5,9 @@
                 Super Admin Dashboard (সুপার অ্যাডমিন ড্যাশবোর্ড)
             </h2>
             <p style="margin-top:6px; font-size:14px; color:#64748b;">
-                Manage users, roles, reports, shelters, alerts, and audit logs.
+                Manage users, roles, reports, shelters, alerts, safety guides, and audit logs.
                 <br>
-                ব্যবহারকারী, রোল, রিপোর্ট, আশ্রয়কেন্দ্র, সতর্কতা এবং অডিট লগ পরিচালনা করুন।
+                ব্যবহারকারী, রোল, রিপোর্ট, আশ্রয়কেন্দ্র, সতর্কতা, নিরাপত্তা গাইড এবং অডিট লগ পরিচালনা করুন।
             </p>
         </div>
     </x-slot>
@@ -27,9 +27,9 @@
                 </h1>
 
                 <p style="margin-top:10px; color:#64748b; line-height:1.7;">
-                    Use this dashboard to manage users, assign roles, monitor reports, manage shelters, publish public alerts, and review audit logs.
+                    Use this dashboard to manage users, assign roles, monitor reports, manage shelters, publish alerts, create safety guides, and review audit logs.
                     <br>
-                    ব্যবহারকারী পরিচালনা, রোল নির্ধারণ, রিপোর্ট পর্যবেক্ষণ, আশ্রয়কেন্দ্র পরিচালনা, জনসাধারণের সতর্কতা প্রকাশ এবং অডিট লগ দেখার জন্য এই ড্যাশবোর্ড ব্যবহার করুন।
+                    ব্যবহারকারী পরিচালনা, রোল নির্ধারণ, রিপোর্ট পর্যবেক্ষণ, আশ্রয়কেন্দ্র পরিচালনা, সতর্কতা প্রকাশ, নিরাপত্তা গাইড তৈরি এবং অডিট লগ দেখার জন্য এই ড্যাশবোর্ড ব্যবহার করুন।
                 </p>
             </div>
 
@@ -66,106 +66,46 @@
             </div>
 
             <div style="margin-top:24px; display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:20px;">
-                <a href="{{ route('admin.users.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        U
-                    </div>
-
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Manage Users (ব্যবহারকারী পরিচালনা)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        Create users, update accounts, and assign roles.
-                        <br>
-                        ব্যবহারকারী তৈরি, অ্যাকাউন্ট আপডেট এবং রোল নির্ধারণ করুন।
-                    </p>
+                <a href="{{ route('admin.users.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; font-weight:900;">U</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Manage Users (ব্যবহারকারী পরিচালনা)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Create users, update accounts, and assign roles.<br>ব্যবহারকারী তৈরি, অ্যাকাউন্ট আপডেট এবং রোল নির্ধারণ করুন।</p>
                 </a>
 
-                <a href="{{ route('authority.reports.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#e0f2fe; color:#0369a1; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        R
-                    </div>
-
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Review Reports (রিপোর্ট পর্যালোচনা)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        View citizen reports and authority validation workflow.
-                        <br>
-                        নাগরিক রিপোর্ট এবং কর্তৃপক্ষ যাচাই প্রক্রিয়া দেখুন।
-                    </p>
+                <a href="{{ route('authority.reports.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#e0f2fe; color:#0369a1; display:flex; align-items:center; justify-content:center; font-weight:900;">R</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Review Reports (রিপোর্ট পর্যালোচনা)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">View citizen reports and authority validation workflow.<br>নাগরিক রিপোর্ট এবং কর্তৃপক্ষ যাচাই প্রক্রিয়া দেখুন।</p>
                 </a>
 
-                <a href="{{ route('responder.reports.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        E
-                    </div>
-
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Emergency Response (জরুরি সাড়া)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        Monitor responder workflow and resolved reports.
-                        <br>
-                        রেসপন্ডার কার্যক্রম এবং সমাধান করা রিপোর্ট পর্যবেক্ষণ করুন।
-                    </p>
+                <a href="{{ route('responder.reports.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-weight:900;">E</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Emergency Response (জরুরি সাড়া)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Monitor responder workflow and resolved reports.<br>রেসপন্ডার কার্যক্রম এবং সমাধান করা রিপোর্ট পর্যবেক্ষণ করুন।</p>
                 </a>
 
-                <a href="{{ route('authority.shelters.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        S
-                    </div>
-
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Manage Shelters (আশ্রয়কেন্দ্র পরিচালনা)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        Add and update shelter capacity, facilities, and status.
-                        <br>
-                        আশ্রয়কেন্দ্রের ধারণক্ষমতা, সুবিধা এবং অবস্থা আপডেট করুন।
-                    </p>
+                <a href="{{ route('authority.shelters.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-weight:900;">S</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Manage Shelters (আশ্রয়কেন্দ্র পরিচালনা)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Add and update shelter capacity, facilities, and status.<br>আশ্রয়কেন্দ্রের ধারণক্ষমতা, সুবিধা এবং অবস্থা আপডেট করুন।</p>
                 </a>
 
-                <a href="{{ route('authority.alerts.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        !
-                    </div>
-
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Manage Alerts (সতর্কতা পরিচালনা)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        Create, publish, and update public disaster alerts.
-                        <br>
-                        জনসাধারণের দুর্যোগ সতর্কতা তৈরি, প্রকাশ এবং আপডেট করুন।
-                    </p>
+                <a href="{{ route('authority.alerts.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; font-weight:900;">!</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Manage Alerts (সতর্কতা পরিচালনা)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Create, publish, and update public disaster alerts.<br>জনসাধারণের দুর্যোগ সতর্কতা তৈরি, প্রকাশ এবং আপডেট করুন।</p>
                 </a>
 
-                <a href="{{ route('admin.audit-logs.index') }}"
-                   style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; color:#172033; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
-                    <div style="width:44px; height:44px; border-radius:12px; background:#f1f5f9; color:#334155; display:flex; align-items:center; justify-content:center; font-weight:900;">
-                        📋
-                    </div>
+                <a href="{{ route('authority.emergency-documents.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; color:#172033; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#ccfbf1; color:#0F766E; display:flex; align-items:center; justify-content:center; font-weight:900;">G</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Safety Guides (নিরাপত্তা গাইড)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Create and manage emergency safety guides for the public.<br>জনসাধারণের জন্য জরুরি নিরাপত্তা গাইড তৈরি ও পরিচালনা করুন।</p>
+                </a>
 
-                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">
-                        Audit Logs (অডিট লগ)
-                    </h3>
-
-                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">
-                        Monitor system actions and important user activities.
-                        <br>
-                        সিস্টেম কার্যক্রম ও গুরুত্বপূর্ণ ব্যবহারকারী কার্যকলাপ দেখুন।
-                    </p>
+                <a href="{{ route('admin.audit-logs.index') }}" style="display:block; background:white; border:1px solid #e5e7eb; border-radius:14px; padding:22px; text-decoration:none; color:#172033; box-shadow:0 1px 3px rgba(15,23,42,0.08);">
+                    <div style="width:44px; height:44px; border-radius:12px; background:#f1f5f9; color:#334155; display:flex; align-items:center; justify-content:center; font-weight:900;">📋</div>
+                    <h3 style="margin-top:16px; font-size:18px; font-weight:800; color:#172033;">Audit Logs (অডিট লগ)</h3>
+                    <p style="margin-top:8px; font-size:14px; color:#64748b; line-height:1.6;">Monitor system actions and important user activities.<br>সিস্টেম কার্যক্রম ও গুরুত্বপূর্ণ ব্যবহারকারী কার্যকলাপ দেখুন।</p>
                 </a>
             </div>
 

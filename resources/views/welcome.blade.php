@@ -6,9 +6,7 @@
     <title>CrisisLens - Disaster Intelligence Platform</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
@@ -17,9 +15,7 @@
             color: #172033;
         }
 
-        a {
-            text-decoration: none;
-        }
+        a { text-decoration: none; }
 
         .container {
             max-width: 1180px;
@@ -38,11 +34,13 @@
         }
 
         .navbar-inner {
-            height: 72px;
+            min-height: 72px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 16px;
+            flex-wrap: wrap;
+            padding: 10px 0;
         }
 
         .brand {
@@ -52,9 +50,7 @@
             transition: all 0.25s ease;
         }
 
-        .brand:hover {
-            transform: scale(1.03);
-        }
+        .brand:hover { transform: scale(1.03); }
 
         .brand-logo {
             width: 42px;
@@ -224,9 +220,7 @@
             transform: translateX(4px);
         }
 
-        .risk-row:last-child {
-            border-bottom: none;
-        }
+        .risk-row:last-child { border-bottom: none; }
 
         .risk-title {
             font-weight: 900;
@@ -248,28 +242,14 @@
             transition: all 0.22s ease;
         }
 
-        .risk-row:hover .risk-pill {
-            transform: scale(1.05);
-        }
+        .risk-row:hover .risk-pill { transform: scale(1.05); }
 
-        .pill-warning {
-            background: #ffedd5;
-            color: #c2410c;
-        }
+        .pill-warning { background: #ffedd5; color: #c2410c; }
+        .pill-safe { background: #dcfce7; color: #15803d; }
+        .pill-critical { background: #fee2e2; color: #b91c1c; }
+        .pill-info { background: #e0f2fe; color: #0369a1; }
 
-        .pill-safe {
-            background: #dcfce7;
-            color: #15803d;
-        }
-
-        .pill-critical {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .section {
-            padding: 58px 0;
-        }
+        .section { padding: 58px 0; }
 
         .section-title {
             text-align: center;
@@ -332,25 +312,10 @@
             transform: scale(1.08) rotate(-2deg);
         }
 
-        .icon-teal {
-            background: #ccfbf1;
-            color: #0F766E;
-        }
-
-        .icon-red {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .icon-blue {
-            background: #e0f2fe;
-            color: #0369a1;
-        }
-
-        .icon-green {
-            background: #dcfce7;
-            color: #15803d;
-        }
+        .icon-teal { background: #ccfbf1; color: #0F766E; }
+        .icon-red { background: #fee2e2; color: #b91c1c; }
+        .icon-blue { background: #e0f2fe; color: #0369a1; }
+        .icon-green { background: #dcfce7; color: #15803d; }
 
         .card h3 {
             margin: 0;
@@ -414,13 +379,9 @@
                 grid-template-columns: 1fr;
             }
 
-            .hero h1 {
-                font-size: 34px;
-            }
+            .hero h1 { font-size: 34px; }
 
             .navbar-inner {
-                height: auto;
-                padding: 14px 0;
                 align-items: flex-start;
                 flex-direction: column;
             }
@@ -447,6 +408,7 @@
 
             <div class="nav-actions">
                 <a href="#guide" class="btn btn-secondary">User Guide (ব্যবহার নির্দেশিকা)</a>
+                <a href="{{ route('public.safety-guides.index') }}" class="btn btn-secondary">Safety Guides (নিরাপত্তা গাইড)</a>
 
                 @auth
                     <a href="{{ route('dashboard') }}" class="btn btn-primary">
@@ -478,10 +440,10 @@
 
                 <p>
                     CrisisLens is a bilingual emergency platform for reporting incidents, viewing public alerts,
-                    finding shelters, and supporting authority-based disaster response.
+                    finding shelters, reading safety guides, and supporting authority-based disaster response.
                     <br>
                     CrisisLens হলো একটি দ্বিভাষিক জরুরি প্ল্যাটফর্ম যেখানে নাগরিক রিপোর্ট জমা দিতে পারে,
-                    সতর্কতা দেখতে পারে, আশ্রয়কেন্দ্র খুঁজতে পারে এবং কর্তৃপক্ষ দ্রুত ব্যবস্থা নিতে পারে।
+                    সতর্কতা দেখতে পারে, আশ্রয়কেন্দ্র খুঁজতে পারে, নিরাপত্তা গাইড পড়তে পারে এবং কর্তৃপক্ষ দ্রুত ব্যবস্থা নিতে পারে।
                 </p>
 
                 <div class="hero-actions">
@@ -495,6 +457,10 @@
 
                     <a href="{{ route('public.shelters.index') }}" class="btn btn-secondary">
                         Shelter Directory (আশ্রয়কেন্দ্র তালিকা)
+                    </a>
+
+                    <a href="{{ route('public.safety-guides.index') }}" class="btn btn-secondary">
+                        Safety Guides (নিরাপত্তা গাইড)
                     </a>
                 </div>
 
@@ -537,10 +503,10 @@
 
                     <div class="risk-row">
                         <div>
-                            <div class="risk-title">Responder Action (রেসপন্ডার সাড়া)</div>
-                            <div class="risk-text">Responder marks reports under review or resolved.</div>
+                            <div class="risk-title">Public Safety Guide (জননিরাপত্তা গাইড)</div>
+                            <div class="risk-text">Verified guides help people prepare and respond safely.</div>
                         </div>
-                        <span class="risk-pill pill-warning">Resolve</span>
+                        <span class="risk-pill pill-info">Guide</span>
                     </div>
                 </div>
             </div>
@@ -590,12 +556,12 @@
                 </div>
 
                 <div class="card">
-                    <div class="icon icon-blue">!</div>
-                    <h3>Public Alerts (জনসাধারণের সতর্কতা)</h3>
+                    <div class="icon icon-blue">G</div>
+                    <h3>Safety Guides (নিরাপত্তা গাইড)</h3>
                     <p>
-                        Citizens can view published and approved public disaster alerts.
+                        Public users can read verified guides for flood, cyclone, evacuation, first aid, and shelter rules.
                         <br>
-                        নাগরিকরা প্রকাশিত ও অনুমোদিত দুর্যোগ সতর্কতা দেখতে পারে।
+                        সবাই বন্যা, ঘূর্ণিঝড়, সরিয়ে নেওয়া, প্রাথমিক চিকিৎসা ও আশ্রয়কেন্দ্রের নিয়ম পড়তে পারে।
                     </p>
                 </div>
             </div>
@@ -620,6 +586,7 @@
                     <ul class="guide-list">
                         <li>View public alerts without login. / লগইন ছাড়াই সতর্কতা দেখুন।</li>
                         <li>View shelter directory without login. / লগইন ছাড়াই আশ্রয়কেন্দ্র দেখুন।</li>
+                        <li>Read safety guides without login. / লগইন ছাড়াই নিরাপত্তা গাইড পড়ুন।</li>
                         <li>Create account to submit report. / রিপোর্ট জমা দিতে অ্যাকাউন্ট তৈরি করুন।</li>
                         <li>Track own report and AI status after login. / লগইনের পর নিজের রিপোর্ট ও AI অবস্থা দেখুন।</li>
                     </ul>
@@ -633,6 +600,7 @@
                         <li>Approve or reject reports. / রিপোর্ট অনুমোদন বা বাতিল করুন।</li>
                         <li>Manage shelters and capacity. / আশ্রয়কেন্দ্র ও ধারণক্ষমতা পরিচালনা করুন।</li>
                         <li>Publish public alerts. / জনসাধারণের সতর্কতা প্রকাশ করুন।</li>
+                        <li>Create verified safety guides. / যাচাইকৃত নিরাপত্তা গাইড তৈরি করুন।</li>
                     </ul>
                 </div>
 
@@ -650,9 +618,9 @@
 
             <div style="margin-top:24px;" class="notice">
                 <strong>Account Rule (অ্যাকাউন্ট নিয়ম):</strong>
-                Public alerts and shelter directory are open for everyone. But incident report submission and AI prediction tracking need citizen login.
+                Public alerts, shelter directory, and safety guides are open for everyone. But incident report submission and AI prediction tracking need citizen login.
                 <br>
-                জনসাধারণের সতর্কতা এবং আশ্রয়কেন্দ্র তালিকা সবার জন্য উন্মুক্ত। কিন্তু ঘটনার রিপোর্ট জমা দেওয়া এবং AI পূর্বাভাস ট্র্যাক করার জন্য নাগরিক লগইন প্রয়োজন।
+                জনসাধারণের সতর্কতা, আশ্রয়কেন্দ্র তালিকা এবং নিরাপত্তা গাইড সবার জন্য উন্মুক্ত। কিন্তু ঘটনার রিপোর্ট জমা দেওয়া এবং AI পূর্বাভাস ট্র্যাক করার জন্য নাগরিক লগইন প্রয়োজন।
             </div>
         </div>
     </section>
@@ -668,7 +636,7 @@
                 </p>
             </div>
 
-            <div class="grid-3">
+            <div class="grid-4">
                 <div class="card">
                     <div class="icon icon-red">!</div>
                     <h3>View Public Alerts (সতর্কতা দেখুন)</h3>
@@ -684,6 +652,15 @@
                     <p>Check shelter location, capacity, facilities, and contact details.</p>
                     <a href="{{ route('public.shelters.index') }}" class="btn btn-primary">
                         Open Shelters (আশ্রয়কেন্দ্র খুলুন)
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="icon icon-blue">G</div>
+                    <h3>Read Safety Guides (নিরাপত্তা গাইড পড়ুন)</h3>
+                    <p>Read verified emergency preparation and response instructions.</p>
+                    <a href="{{ route('public.safety-guides.index') }}" class="btn btn-primary">
+                        Open Guides (গাইড খুলুন)
                     </a>
                 </div>
 
@@ -706,30 +683,30 @@
         </div>
     </section>
 
-<footer class="footer">
-    <div class="container">
-        <div style="display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap;">
-            <div>
-                <strong style="font-size:18px;">
-                    <span style="color:#22c55e;">Crisis</span><span style="color:#ef4444;">Lens</span>
-                </strong>
+    <footer class="footer">
+        <div class="container">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:18px; flex-wrap:wrap;">
+                <div>
+                    <strong style="font-size:18px;">
+                        <span style="color:#22c55e;">Crisis</span><span style="color:#ef4444;">Lens</span>
+                    </strong>
 
-                <p>
-                    AI-assisted disaster intelligence and emergency response platform.
-                    <br>
-                    AI সহায়তাপ্রাপ্ত দুর্যোগ বুদ্ধিমত্তা ও জরুরি সাড়া প্ল্যাটফর্ম।
-                </p>
-            </div>
+                    <p>
+                        AI-assisted disaster intelligence and emergency response platform.
+                        <br>
+                        AI সহায়তাপ্রাপ্ত দুর্যোগ বুদ্ধিমত্তা ও জরুরি সাড়া প্ল্যাটফর্ম।
+                    </p>
+                </div>
 
-            <div style="text-align:right;">
-                <p style="margin:0; color:#cbd5e1; font-size:14px; line-height:1.7;">
-                    © 2026 CrisisLens. All rights reserved.
-                    <br>
-                    Developed by <strong style="color:white;">Mejbah Uddin Bhuiyan</strong>
-                </p>
+                <div style="text-align:right;">
+                    <p style="margin:0; color:#cbd5e1; font-size:14px; line-height:1.7;">
+                        © 2026 CrisisLens. All rights reserved.
+                        <br>
+                        Developed by <strong style="color:white;">Mejbah Uddin Bhuiyan</strong>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>

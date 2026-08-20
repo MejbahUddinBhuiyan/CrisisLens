@@ -179,6 +179,11 @@
                            class="cl-nav-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                             Alerts
                         </a>
+
+                        <a href="{{ route('authority.emergency-documents.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.emergency-documents.*') ? 'active' : '' }}">
+                            Safety Guides
+                        </a>
                     @endrole
 
                     @role('Super Administrator')
@@ -200,6 +205,11 @@
                         <a href="{{ route('authority.alerts.index') }}"
                            class="cl-nav-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                             Alerts
+                        </a>
+
+                        <a href="{{ route('authority.emergency-documents.index') }}"
+                           class="cl-nav-link {{ request()->routeIs('authority.emergency-documents.*') ? 'active' : '' }}">
+                            Safety Guides
                         </a>
 
                         <a href="{{ route('admin.audit-logs.index') }}"
@@ -325,6 +335,11 @@
                    class="cl-mobile-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                     Alerts
                 </a>
+
+                <a href="{{ route('authority.emergency-documents.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.emergency-documents.*') ? 'active' : '' }}">
+                    Safety Guides
+                </a>
             @endrole
 
             @role('Super Administrator')
@@ -346,6 +361,11 @@
                 <a href="{{ route('authority.alerts.index') }}"
                    class="cl-mobile-link {{ request()->routeIs('authority.alerts.*') ? 'active' : '' }}">
                     Alerts
+                </a>
+
+                <a href="{{ route('authority.emergency-documents.index') }}"
+                   class="cl-mobile-link {{ request()->routeIs('authority.emergency-documents.*') ? 'active' : '' }}">
+                    Safety Guides
                 </a>
 
                 <a href="{{ route('admin.audit-logs.index') }}"
