@@ -58,19 +58,19 @@ class ReportReviewController extends Controller
     return view('authority.reports.index', compact('reports'));
 }
 
-    public function show(Report $report): View
-    {
-        $report->load([
-            'user',
-            'images',
-            'predictions' => function ($query) {
-                $query->latest();
-            },
-            'validator',
-        ]);
+public function show(Report $report): View
+{
+    $report->load([
+        'user',
+        'images',
+        'validator',
+        'predictions' => function ($query) {
+            $query->latest();
+        },
+    ]);
 
-        return view('authority.reports.show', compact('report'));
-    }
+    return view('authority.reports.show', compact('report'));
+}
 
     public function approve(Request $request, Report $report): RedirectResponse
     {
